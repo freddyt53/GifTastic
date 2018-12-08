@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>GifTastic App</title>  
+</head>
+
+<body>
+    <div id="buttons">
+        <button data-game = "real madrid">Real Madrid
+        </button>
+        <button data-game = "barcelona">Barcelona
+        </button>
+        <button data-game = "liverpool">Liverpool
+        </button>
+        <button data-game = "chelsea fc">Chelsea
+        </button>
+        <button data-game = "ajax">Ajax
+        </button>
+        <button data-game = "borussia dortmund">BVB
+            </button>
+    
+    </div>
+
+<div class="container">
+    <div class="row">
+        <div id="mygifs">
+        </div>
+    </div>
+</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    $("button").on("click", function() {
+        var videoGame = $(this).attr("data-game");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        videoGame + "&api_key=dc6zaTOxFJmzC&limit=5&fixed_height=200px&fixed_width=200px";
+
+        
+        /* my api key = C9nI0Gxe6Qxd3gCQ6JWT2ioKAYKawzKN */
+
+        $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var gameImage = $("<img>");
+            gameImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(gameImage);
+
+            $("#mygifs").prepend(gifDiv);
+          }
+        });
+    });
+
+</script>
+</body>
+</html>
